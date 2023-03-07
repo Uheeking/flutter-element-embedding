@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:js/js.dart' as js;
 import 'package:js/js_util.dart' as js_util;
@@ -32,36 +34,45 @@ class MyHomePage extends StatefulWidget {
 
 @js.JSExport()
 class _MyHomePageState extends State<MyHomePage> {
-  // void initState() {
-  //   super.initState();
-  //   final export = js_util.createDartExport(this);
+  int counter = 0;
 
-  //   js_util.setProperty(js_util.globalThis, '_appState', export);
-  //   js_util.callMethod<void>(js_util.globalThis, '_stateSet', []);
-  // }
   @override
   void initState() {
-    final setThemeColorToExport = js_util.allowInterop(setThemeColor);
+    final export = js_util.createDartExport(this);
+    final setThemeColorToExport = js_util.allowInterop(increment);
+    js_util.setProperty(js_util.globalThis, 'myAppState', export);
     js_util.setProperty(
         js_util.globalThis, 'setThemeColor', setThemeColorToExport);
+    // js_util.setProperty(js_util.globalThis, '_appState', export);
+    // js_util.callMethod<void>(js_util.globalThis, '_stateSet', []);
     super.initState();
   }
 
-  late Color themeColor;
-
-  void setThemeColor(List rgbList) {
+  @js.JSExport()
+  void increment() {
     setState(() {
-      themeColor = Color.fromRGBO(rgbList[0], rgbList[1], rgbList[2], 1);
+      counter++;
+    });
+    js_util.callMethod<void>(js_util.globalThis, 'setCounter', [counter]);
+  }
+
+  final _streamController = StreamController<void>.broadcast();
+
+  @js.JSExport()
+  void addHandler(void Function() handler) {
+    // This registers the handler we wrote in [js/js-interop.js]
+    _streamController.stream.listen((event) {
+      handler();
     });
   }
 
-  int _counter = 0;
+  // int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // void _incrementCounter() {
+  //   setState(() {
+  //     _counter++;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -77,14 +88,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 'You have pushed the button this many times:',
               ),
               Text(
-                '$_counter',
+                '$counter',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: _incrementCounter,
+          onPressed: increment,
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ));
