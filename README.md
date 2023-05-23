@@ -55,5 +55,5 @@ flutter pub add js
 → Dart 코드에서 JavaScript API를 호출하거나 그 반대로 호출하려는 경우에 js 패키지를 사용한다. 또한, js 패키지의 두 번째 라이브러리인 `js_util`가정적 주석 API로 JavaScript를 래핑할 수 없을 때 사용할 수 있는 저수준 유틸리티를 제공한다.
 
 ## 실행화면
+![image](https://github.com/Uheeking/HBD/assets/90121929/6ac0397a-09f6-4523-94e3-1e1421626153)
 
-<img src="https://file.notion.so/f/s/94570c19-7d49-47f8-9453-5da3dcdf0cc3/Flutter_Demo_-_Chrome_2023-03-07_23-17-23_AdobeExpress_AdobeExpress.gif?id=8aaae20a-e9d9-40c6-a442-24f31ce5487a&table=block&spaceId=b12b0ef5-36af-4713-8130-4c2d165ea402&expirationTimestamp=1681008312879&signature=ye3JlKWXIl8TZXcFIPoTjLKJ_38G19cm8mBbH1YoHGo">
